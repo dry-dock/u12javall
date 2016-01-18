@@ -22,33 +22,3 @@ Shippable CI image for Java on Ubuntu 12.04. Available jdk versions:
 10. selenium 2.45
 11. sqllite 3
 12. couchdb 1
-
-## How to use
-You can use this image to run java builds on Shippable. Update your shippable.yml file with build_image tag and activate jdk in before_script section to run your build against the correct version. You can use $SHIPPABLE_JDK_VERSION environment variable to specify jdk versions. Here's a sample YML file to get you going:
-
-
-````
-language: java
-jdk:
-   - openjdk6
-   - openjdk7
-   - oraclejdk7
-   - oraclejdk8
-
-build_image: drydock/u12javall:prod
-
-before_install:
-   - apt-get install -y maven
-
-before_script:
-   - if [[ $SHIPPABLE_JDK_VERSION == "openjdk7" ]] ; then export JAVA_HOME="/usr/lib/jvm/java-7-openjdk-amd64"; export PATH="$PATH:/usr/lib/jvm/java-7-openjdk-amd64/bin"; export java_path="/usr/lib/jvm/java-7-openjdk-amd64/jre/bin/java"; fi
-   - if [[ $SHIPPABLE_JDK_VERSION == "oraclejdk7" ]] ; then export JAVA_HOME="/usr/lib/jvm/java-7-oracle"; export PATH="$PATH:/usr/lib/jvm/java-7-oracle/bin"; export java_path="/usr/lib/jvm/java-7-oracle/jre/bin/java"; fi
-   - if [[ $SHIPPABLE_JDK_VERSION == "openjdk6" ]] ; then export JAVA_HOME="/usr/lib/jvm/java-6-openjdk-amd64"; export PATH="$PATH:/usr/lib/jvm/java-6-openjdk-amd64/bin"; export java_path="/usr/lib/jvm/java-6-openjdk-amd64/jre/bin/java"; fi
-   - if [[ $SHIPPABLE_JDK_VERSION == "oraclejdk8" ]] ; then export JAVA_HOME="/usr/lib/jvm/java-8-oracle"; export PATH="$PATH:/usr/lib/jvm/java-8-oracle/bin"; export java_path="/usr/lib/jvm/java-8-oracle/jre/bin/java"; fi
-   - update-alternatives --set java $java_path
-   - java -version
-
-script:
-   - mvn test
-
-````
